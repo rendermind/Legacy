@@ -1,0 +1,6 @@
+0.1.0
+    Implemented command /legacy, displays total in-game time
+    Added sub-command /legacy (player), displays specified player's total in-game time
+0.0.1
+    Console reports player session time in-game upon player disconnect
+    Log.yml contains total in-game time & updates upon player disconnect
