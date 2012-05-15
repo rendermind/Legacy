@@ -52,7 +52,7 @@ public class LegacyCommand implements CommandExecutor {
 		    totalTime += Legacy.config.getLong(player.getName());
 		
 		// display to player
-		player.sendMessage(ChatColor.GREEN + "Time played: " + totalTime + " seconds.");
+		player.sendMessage(ChatColor.GREEN + "Time played:  " + timePlayed(totalTime) + '.');
 		return true;
 	    }
 	    
@@ -90,12 +90,43 @@ public class LegacyCommand implements CommandExecutor {
 		}
 		
 		// display to player
-		player.sendMessage(ChatColor.GREEN + "Time played: " + totalTime + " seconds.");
+		player.sendMessage(ChatColor.GREEN + "Time played:  " + timePlayed(totalTime) + '.');
 		return true;
 	    }
 	}
 	
 	// end of command
 	return false;
+    }
+    
+    public String timePlayed(Long totalTime) {
+	
+	// initialize variables
+	long days; long hours; long minutes;
+	String _days; String _hours; String _minutes;
+	
+	// calculate days
+	days = totalTime / 86400;
+	if (days == 1)
+	    _days = "day";
+	else
+	    _days = "days";
+	
+	// calculate hours
+	hours = (totalTime / 3600) - (days * 24);
+	if (hours == 1)
+	    _hours = "hour";
+	else
+	    _hours = "hours";
+	
+	// calculate minutes
+	minutes = (totalTime / 60) - (hours * 60);
+	if (minutes == 1)
+	    _minutes = "minute";
+	else
+	    _minutes = "minutes";
+	
+	// return formatted time played
+	return days + " " + _days + ", " + hours + " " + _hours + ", " + minutes + " " + _minutes;
     }
 }
