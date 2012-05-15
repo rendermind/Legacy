@@ -3,7 +3,6 @@ package me.vioviocity.legacy;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -25,6 +24,10 @@ public class Legacy extends JavaPlugin implements Listener {
     
     @Override
     public void onDisable() {
+	// save config
+	
+	
+	// console
         log.info(this + " is now disabled.");
     }
 
@@ -40,6 +43,7 @@ public class Legacy extends JavaPlugin implements Listener {
 	// register commands
 	getCommand("legacy").setExecutor(new LegacyCommand(this));
 	
+	// console
 	log.info(this + " is now enabled.");
     }
     

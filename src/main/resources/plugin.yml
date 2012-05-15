@@ -1,7 +1,7 @@
 author: Stephen Monroe (VioVioCity)
 main: me.vioviocity.legacy.Legacy
 name: Legacy
-version: 0.0.1
+version: 0.1.0
 commands:
   legacy:
     description: Displays server play time.
