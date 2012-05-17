@@ -43,7 +43,7 @@ public class LegacyCommand implements CommandExecutor {
 		long totalTime = 0;
 		
 		// search current session
-		for (Map.Entry<Player,Long> entry : Legacy.playerTime.entrySet())
+		for (Map.Entry<Player,Long> entry : Legacy.timeTracker.entrySet())
 		    if (entry.getKey().equals(player))
 			totalTime += (now.getTime() - entry.getValue()) / 1000;
 		
@@ -75,7 +75,7 @@ public class LegacyCommand implements CommandExecutor {
 			playerName = each.getName();
 		
 		// search current session
-		for (Map.Entry<Player,Long> entry : Legacy.playerTime.entrySet())
+		for (Map.Entry<Player,Long> entry : Legacy.timeTracker.entrySet())
 		    if (entry.getKey().getName().contains(playerName))
 			totalTime += (now.getTime() - entry.getValue()) / 1000;
 		

@@ -12,7 +12,7 @@ public class LegacyListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
 	Date now = new Date();
-	Legacy.playerTime.put(event.getPlayer(), now.getTime());
+	Legacy.timeTracker.put(event.getPlayer(), now.getTime());
     }
     
     @EventHandler
@@ -20,7 +20,7 @@ public class LegacyListener implements Listener {
 	// initialize variables
 	Player player = event.getPlayer();
 	Date now = new Date();
-	long playerSession = (now.getTime() - Legacy.playerTime.get(player)) / 1000;
+	long playerSession = (now.getTime() - Legacy.timeTracker.get(player)) / 1000;
 	
 	// display to console
 	Legacy.log.info("[Legacy] " + player.getName() + "'s session was " + playerSession + " seconds.");
@@ -33,6 +33,6 @@ public class LegacyListener implements Listener {
 	Legacy.saveLegacyConfig();
 	
 	// remove from map
-	Legacy.playerTime.remove(player);
+	Legacy.timeTracker.remove(player);
     }
 }

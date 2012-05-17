@@ -3,6 +3,7 @@ package me.vioviocity.legacy;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -20,12 +21,32 @@ public class Legacy extends JavaPlugin implements Listener {
     static public FileConfiguration config = null;
     static File configFile = null;
     
-    static public Map<Player,Long> playerTime = new HashMap<Player,Long>(100);
+    static public Map<Player,Long> timeTracker = new HashMap<Player,Long>(128);
     
     @Override
     public void onDisable() {
-	// save config
 	
+	// initialize variables
+	Date now = new Date();
+	long playerSession;
+	
+	// cycle players
+	for (Player each : getServer().getOnlinePlayers()) {
+	    playerSession = (now.getTime() - timeTracker.get(each)) / 1000;
+	    
+	    // display to console
+	    log.info("[Legacy] " + each.getName() + ";s session was " + playerSession + " seconds.");
+	    
+	    // save in config
+	    if (config.contains(each.getName()))
+		config.set(each.getName(), config.getLong(each.getName()) + playerSession);
+	    else
+		config.set(each.getName(), playerSession);
+	    saveLegacyConfig();
+	    
+	    // remove from map
+	    timeTracker.remove(each);
+	}
 	
 	// console
         log.info(this + " is now disabled.");
@@ -33,6 +54,7 @@ public class Legacy extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+	
 	// register events
         getServer().getPluginManager().registerEvents(new LegacyListener(), this);
 	
@@ -42,6 +64,11 @@ public class Legacy extends JavaPlugin implements Listener {
 	
 	// register commands
 	getCommand("legacy").setExecutor(new LegacyCommand(this));
+	
+	// add players to timeTracker
+	Date now = new Date();
+	for (Player each : getServer().getOnlinePlayers())
+	    timeTracker.put(each, now.getTime());
 	
 	// console
 	log.info(this + " is now enabled.");
