@@ -17,24 +17,28 @@ public class LegacyCommand implements CommandExecutor {
     }
     
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-	if (!(sender instanceof Player)) {
-	    sender.sendMessage("[Legacy] Command not yet supported in console.");
-	    return true;
-	}
+	// check if player
+	Boolean isPlayer = true;
+	if (!(sender instanceof Player))
+	    isPlayer = false;
 	
 	// initialize variables
-	Player player = (Player) sender;
+	Player player = null;
+	if (isPlayer)
+	    player = (Player) sender;
 	Date now = new Date();
 	
 	// command handler
 	String cmd = command.getName().toLowerCase();
 	if (cmd.equals("legacy")) {
+	    
 	    //invalid args
 	    if (args.length > 1)
 		return false;
 	    
 	    // <command>
-	    if (args.length == 0) {
+	    if (args.length == 0 && isPlayer) {
+		
 		// check permission
 		if (!Legacy.checkPermission("legacy.check", player))
 		    return true;
@@ -59,9 +63,11 @@ public class LegacyCommand implements CommandExecutor {
 	    // <command> (leaderboard)
 	    if (args.length == 1) {
 		if(args[0].equals("leaderboard") || args[0].equals("board")) {
+		    
 		    // check permission
-		    if (!Legacy.checkPermission("legacy.leaderboard", player))
-			return true;
+		    if (isPlayer)
+			if (!Legacy.checkPermission("legacy.leaderboard", player))
+			    return true;
 		
 		    /*
 		    // initialize variables
@@ -103,9 +109,11 @@ public class LegacyCommand implements CommandExecutor {
 	    
 	    // <command> (player)
 	    if (args.length == 1) {
+		
 		// check permission
-		if (!Legacy.checkPermission("legacy.check.others", player))
-		    return true;
+		if (isPlayer)
+		    if (!Legacy.checkPermission("legacy.others", player))
+			return true;
 		
 		// initialize variables
 		String playerName = args[0];
@@ -130,12 +138,12 @@ public class LegacyCommand implements CommandExecutor {
 		
 		// player not found
 		if (totalTime == 0) {
-		    player.sendMessage(ChatColor.RED + "Player not found.");
+		    sender.sendMessage(ChatColor.RED + "Player not found.");
 		    return true;
 		}
 		
 		// display to player
-		player.sendMessage(ChatColor.GREEN + "Time played:  " + timePlayed(totalTime) + '.');
+		sender.sendMessage(ChatColor.GREEN + "Time played:  " + timePlayed(totalTime) + '.');
 		return true;
 	    }
 	}

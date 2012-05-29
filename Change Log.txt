@@ -1,5 +1,7 @@
-1.0.0
+1.1.0
     Added /legacy [leaderboard], displays list of top players based on time
+1.0.0
+    Command /legacy (player) now accessible via console
     Fixed Issue: minutes reported incorrectly after 1 day of accumulated time
     Changed permission legacy.check.others to legacy.others
     Now supports Metrics w/ mcstats.org
