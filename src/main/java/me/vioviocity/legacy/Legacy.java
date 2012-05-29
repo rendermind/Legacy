@@ -70,6 +70,14 @@ public class Legacy extends JavaPlugin implements Listener {
 	for (Player each : getServer().getOnlinePlayers())
 	    timeTracker.put(each, now.getTime());
 	
+	// metrics
+	try {
+	    Metrics metrics = new Metrics(this);
+	    metrics.start();
+	} catch (IOException e) {
+	    log.warning("Legacy] Failed to submit metrics.");
+	}
+	
 	// console
 	log.info(this + " is now enabled.");
     }

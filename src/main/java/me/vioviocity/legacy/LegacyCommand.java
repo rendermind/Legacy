@@ -36,7 +36,7 @@ public class LegacyCommand implements CommandExecutor {
 	    // <command>
 	    if (args.length == 0) {
 		// check permission
-		if (!Legacy.checkPermission("legacy.check", player) || !Legacy.checkPermission("legacy.check.others", player))
+		if (!Legacy.checkPermission("legacy.check", player))
 		    return true;
 		
 		// initialize variables
@@ -54,6 +54,51 @@ public class LegacyCommand implements CommandExecutor {
 		// display to player
 		player.sendMessage(ChatColor.GREEN + "Time played:  " + timePlayed(totalTime) + '.');
 		return true;
+	    }
+	    
+	    // <command> (leaderboard)
+	    if (args.length == 1) {
+		if(args[0].equals("leaderboard") || args[0].equals("board")) {
+		    // check permission
+		    if (!Legacy.checkPermission("legacy.leaderboard", player))
+			return true;
+		
+		    /*
+		    // initialize variables
+		    Map <String,Long> tempTracker = new HashMap<String,Long>(500);
+		    Map <String,Long> sortTracker = new HashMap<String,Long>(5);
+		    String sortPlayer;
+		    long highest;
+		    
+		    // load config
+		    for (String each : Legacy.config.getConfigurationSection("").getKeys(false))
+			tempTracker.put(each, Legacy.config.getLong(each));
+		    
+		    // sort players
+		    for (int i = 0; i < 5; i ++) {
+			sortPlayer = "";
+			highest = 0;
+			for (Map.Entry<String,Long> entry : tempTracker.entrySet()) {
+			    Legacy.log.info("[LEGACY] " + entry.getValue());
+			    if (entry.getValue() > highest) {
+				sortPlayer = entry.getKey();
+				highest = entry.getValue();
+				Legacy.log.info("[LEGACY] ----- " + highest);
+			    }
+			}
+			tempTracker.remove(sortPlayer);
+			sortTracker.put(sortPlayer, highest);
+		    }
+		
+		    // display leaderboard
+		    player.sendMessage(ChatColor.GREEN + "Legacy Leaderboard");
+		    for (Map.Entry<String,Long> entry : sortTracker.entrySet())
+			player.sendMessage(ChatColor.GREEN + " - " + entry.getKey() + ": " + entry.getValue());
+		    return true;
+		    */
+		    
+		    
+		}
 	    }
 	    
 	    // <command> (player)
@@ -120,7 +165,7 @@ public class LegacyCommand implements CommandExecutor {
 	    _hours = "hours";
 	
 	// calculate minutes
-	minutes = (totalTime / 60) - (hours * 60);
+	minutes = (totalTime / 60) - (hours * 60) - (days * 1440);
 	if (minutes == 1)
 	    _minutes = "minute";
 	else

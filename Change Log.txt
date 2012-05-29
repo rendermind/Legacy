@@ -1,5 +1,10 @@
-0.x.x
-    "add leaderboard"
+1.0.0
+    Added /legacy [leaderboard], displays list of top players based on time
+    Fixed Issue: minutes reported incorrectly after 1 day of accumulated time
+    Changed permission legacy.check.others to legacy.others
+    Now supports Metrics w/ mcstats.org
+    Updated plugin version from beta to release
+    Updated CraftBukkit to 1.2.5-R3.0
 0.1.0
     Implemented command /legacy, displays total in-game time
     Added sub-command /legacy (player), displays specified player's total in-game time

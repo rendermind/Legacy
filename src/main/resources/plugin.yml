@@ -1,7 +1,7 @@
 author: Stephen Monroe (VioVioCity)
 main: me.vioviocity.legacy.Legacy
 name: Legacy
-version: 0.1.0
+version: 1.0.0
 commands:
   legacy:
     description: Displays server play time.
@@ -10,6 +10,9 @@ permissions:
   legacy.check:
     description: Allows use of /legacy.
     default: op
-  legacy.check.others:
+  legacy.others:
     description: Allows use of /legacy (player)
+    default: op
+  legacy.leaderboard:
+    description: Allows use of /legacy (leaderboard)
     default: op
