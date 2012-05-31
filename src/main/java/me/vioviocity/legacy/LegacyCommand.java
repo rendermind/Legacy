@@ -1,6 +1,7 @@
 package me.vioviocity.legacy;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -61,50 +62,38 @@ public class LegacyCommand implements CommandExecutor {
 	    }
 	    
 	    // <command> (leaderboard)
-	    if (args.length == 1) {
-		if(args[0].equals("leaderboard") || args[0].equals("board")) {
+	    if (args.length == 1 && args[0].equals("leaderboard") || args[0].equals("board") || args[0].equals("top")) {
 		    
-		    // check permission
-		    if (isPlayer)
-			if (!Legacy.checkPermission("legacy.leaderboard", player))
-			    return true;
+		// check permission
+		if (isPlayer)
+		    if (!Legacy.checkPermission("legacy.leaderboard", player))
+		        return true;
+		    
+		// initialize variables
+		Map<String,Long> tempTracker = new HashMap<String,Long>(500);
+		Map<String,Long> sortTracker = new HashMap<String,Long>(5);
+		String highPlayer = "";
+		long highTime = 0;
 		
-		    /*
-		    // initialize variables
-		    Map <String,Long> tempTracker = new HashMap<String,Long>(500);
-		    Map <String,Long> sortTracker = new HashMap<String,Long>(5);
-		    String sortPlayer;
-		    long highest;
+		// load config
+		for (String each : Legacy.config.getConfigurationSection("").getKeys(false))
+		    tempTracker.put(each, Legacy.config.getLong(each));
 		    
-		    // load config
-		    for (String each : Legacy.config.getConfigurationSection("").getKeys(false))
-			tempTracker.put(each, Legacy.config.getLong(each));
-		    
-		    // sort players
-		    for (int i = 0; i < 5; i ++) {
-			sortPlayer = "";
-			highest = 0;
-			for (Map.Entry<String,Long> entry : tempTracker.entrySet()) {
-			    Legacy.log.info("[LEGACY] " + entry.getValue());
-			    if (entry.getValue() > highest) {
-				sortPlayer = entry.getKey();
-				highest = entry.getValue();
-				Legacy.log.info("[LEGACY] ----- " + highest);
-			    }
+		// sort players
+		sender.sendMessage(ChatColor.GREEN + "-= Legacy Leaderboard =-");
+		for (int i = 1; i < 6; i ++) {
+		    highTime = 0;
+		    for (Map.Entry<String,Long> entry : tempTracker.entrySet()) {
+			if (entry.getValue() > highTime && !sortTracker.containsKey(entry.getKey())) {
+			    highPlayer = entry.getKey();
+			    highTime = entry.getValue();
 			}
-			tempTracker.remove(sortPlayer);
-			sortTracker.put(sortPlayer, highest);
 		    }
-		
-		    // display leaderboard
-		    player.sendMessage(ChatColor.GREEN + "Legacy Leaderboard");
-		    for (Map.Entry<String,Long> entry : sortTracker.entrySet())
-			player.sendMessage(ChatColor.GREEN + " - " + entry.getKey() + ": " + entry.getValue());
-		    return true;
-		    */
-		    
-		    
+		    sortTracker.put(highPlayer, highTime);
+		    sender.sendMessage(ChatColor.RED + String.valueOf(i) + ". " + ChatColor.GREEN + highPlayer + " - " +
+			    ChatColor.GOLD + timePlayed(highTime));
 		}
+		return true;
 	    }
 	    
 	    // <command> (player)
