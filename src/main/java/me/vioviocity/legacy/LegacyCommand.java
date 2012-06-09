@@ -57,16 +57,16 @@ public class LegacyCommand implements CommandExecutor {
 		    totalTime += Legacy.config.getLong(player.getName());
 		
 		// display to player
-		player.sendMessage(ChatColor.GREEN + "Time played:  " + timePlayed(totalTime) + '.');
+		player.sendMessage(ChatColor.GREEN + "Time played: " + ChatColor.GOLD + timePlayed(totalTime));
 		return true;
 	    }
 	    
-	    // <command> (leaderboard)
-	    if (args.length == 1 && args[0].equals("leaderboard") || args[0].equals("board") || args[0].equals("top")) {
+	    // <command> [top]
+	    if (args.length == 1 && args[0].equals("top")) {
 		    
 		// check permission
 		if (isPlayer)
-		    if (!Legacy.checkPermission("legacy.leaderboard", player))
+		    if (!Legacy.checkPermission("legacy.top", player))
 		        return true;
 		    
 		// initialize variables
@@ -81,7 +81,7 @@ public class LegacyCommand implements CommandExecutor {
 		    
 		// sort players
 		sender.sendMessage(ChatColor.GREEN + "-= Legacy Leaderboard =-");
-		for (int i = 1; i < 6; i ++) {
+		for (int i = 1; i < 11; i ++) {
 		    highTime = 0;
 		    for (Map.Entry<String,Long> entry : tempTracker.entrySet()) {
 			if (entry.getValue() > highTime && !sortTracker.containsKey(entry.getKey())) {
@@ -90,11 +90,30 @@ public class LegacyCommand implements CommandExecutor {
 			}
 		    }
 		    sortTracker.put(highPlayer, highTime);
-		    sender.sendMessage(ChatColor.RED + String.valueOf(i) + ". " + ChatColor.GREEN + highPlayer + " - " +
+		    sender.sendMessage(ChatColor.RED + String.valueOf(i) + ". " + ChatColor.GREEN + highPlayer + ": " +
 			    ChatColor.GOLD + timePlayed(highTime));
 		}
 		return true;
 	    }
+            
+            // <command> [total]
+            if (args.length == 1 && args[0].equals("total")) {
+                
+                // check permission
+                if (isPlayer)
+                    if (!Legacy.checkPermission("legacy.top", player))
+                        return true;
+                
+                // initialize variables
+                long totalTime = 0;
+                
+                // load config
+                for (String each : Legacy.config.getConfigurationSection("").getKeys(false))
+                    totalTime += Legacy.config.getLong(each);
+                
+                sender.sendMessage(ChatColor.GREEN + "Total Played: " + ChatColor.GOLD + timePlayed(totalTime));
+                return true;
+            }
 	    
 	    // <command> (player)
 	    if (args.length == 1) {
@@ -132,13 +151,13 @@ public class LegacyCommand implements CommandExecutor {
 		}
 		
 		// display to player
-		sender.sendMessage(ChatColor.GREEN + "Time played:  " + timePlayed(totalTime) + '.');
+		sender.sendMessage(ChatColor.GREEN + playerName + " played: " + ChatColor.GOLD + timePlayed(totalTime));
 		return true;
 	    }
 	}
-	
-	// end of command
-	return false;
+        
+        // end of command
+        return false;
     }
     
     public String timePlayed(Long totalTime) {

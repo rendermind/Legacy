@@ -1,3 +1,10 @@
+1.2.0
+    Added /legacy [total], displays total time of all players combined
+    Changed /legacy [leaderboard] to /legacy [top]
+    Changed permission legacy.leaderboard to legacy.top
+    Changed /legacy (player) showing the players name
+    Changed /legacy [top] from displaying top 5 to top 10 players
+    Fixed Issue: /legacy w/out args in console would show error
 1.1.0
     Added /legacy [leaderboard], displays list of top players based on time
     Fixed Issue: /legacy (player) not working in console
