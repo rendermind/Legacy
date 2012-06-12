@@ -21,9 +21,6 @@ public class LegacyListener implements Listener {
 	Player player = event.getPlayer();
 	Date now = new Date();
 	long playerSession = (now.getTime() - Legacy.timeTracker.get(player)) / 1000;
-	
-	// display to console
-	Legacy.log.info("[Legacy] " + player.getName() + "'s session was " + playerSession + " seconds.");
 
 	// save in config
 	if (Legacy.config.contains(player.getName()))

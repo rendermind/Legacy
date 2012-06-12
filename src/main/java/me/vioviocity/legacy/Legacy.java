@@ -34,9 +34,6 @@ public class Legacy extends JavaPlugin implements Listener {
 	for (Player each : getServer().getOnlinePlayers()) {
 	    playerSession = (now.getTime() - timeTracker.get(each)) / 1000;
 	    
-	    // display to console
-	    log.info("[Legacy] " + each.getName() + ";s session was " + playerSession + " seconds.");
-	    
 	    // save in config
 	    if (config.contains(each.getName()))
 		config.set(each.getName(), config.getLong(each.getName()) + playerSession);
@@ -47,6 +44,9 @@ public class Legacy extends JavaPlugin implements Listener {
 	    // remove from map
 	    timeTracker.remove(each);
 	}
+        
+        // display to console
+        log.info("[Legacy] Auto-saved player time");
 	
 	// console
         log.info(this + " is now disabled.");
@@ -78,6 +78,11 @@ public class Legacy extends JavaPlugin implements Listener {
 	    log.warning("Legacy] Failed to submit metrics.");
 	}
 	
+        // schedule auto-save
+        getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
+            public void run() { savePlayerTime(); }
+	}, 900, 900);
+        
 	// console
 	log.info(this + " is now enabled.");
     }
@@ -115,5 +120,36 @@ public class Legacy extends JavaPlugin implements Listener {
 	} else {
 	    return true;
 	}
+    }
+    
+    // save player time to config
+    public void savePlayerTime() {
+        
+        // initialize variables
+	Date now = new Date();
+	long playerSession;
+	
+	// cycle players
+	for (Player each : getServer().getOnlinePlayers()) {
+	    playerSession = (now.getTime() - timeTracker.get(each)) / 1000;
+	    
+	    // save in config
+	    if (config.contains(each.getName()))
+		config.set(each.getName(), config.getLong(each.getName()) + playerSession);
+	    else
+		config.set(each.getName(), playerSession);
+	    saveLegacyConfig();
+	    
+	    // remove from map
+	    timeTracker.remove(each);
+	}
+        
+        // display to console
+        log.info("[Legacy] Auto-saved player time");
+        
+        // add players to timeTracker
+	now = new Date();
+	for (Player each : getServer().getOnlinePlayers())
+	    timeTracker.put(each, now.getTime());
     }
 }

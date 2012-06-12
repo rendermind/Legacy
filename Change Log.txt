@@ -1,3 +1,7 @@
+1.2.1
+    Added auto-save player time every 15 minutes
+    Removed console message when players leave
+    Updated CraftBukkit to 1.2.5-R4.0
 1.2.0
     Added /legacy [total], displays total time of all players combined
     Changed /legacy [leaderboard] to /legacy [top]
