@@ -1,3 +1,6 @@
+1.2.3
+    Fixed Issue: console reports error if player quits after playing for 15 minutes
+    Fixed Issue: console randomly reports error upon saving player times
 1.2.2
     Fixed Issue: 45-second auto-save instead of 15 minutes
 1.2.1

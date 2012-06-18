@@ -17,10 +17,14 @@ public class LegacyListener implements Listener {
     
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        
+        if (!Legacy.timeTracker.containsKey(event.getPlayer()))
+            return;
+        
 	// initialize variables
 	Player player = event.getPlayer();
 	Date now = new Date();
-	long playerSession = (now.getTime() - Legacy.timeTracker.get(player)) / 1000;
+        long playerSession = (now.getTime() - Legacy.timeTracker.get(player)) / 1000;
 
 	// save in config
 	if (Legacy.config.contains(player.getName()))

@@ -131,17 +131,19 @@ public class Legacy extends JavaPlugin implements Listener {
 	
 	// cycle players
 	for (Player each : getServer().getOnlinePlayers()) {
-	    playerSession = (now.getTime() - timeTracker.get(each)) / 1000;
+            if (timeTracker.containsKey(each)) {
+                playerSession = (now.getTime() - timeTracker.get(each)) / 1000;
 	    
-	    // save in config
-	    if (config.contains(each.getName()))
-		config.set(each.getName(), config.getLong(each.getName()) + playerSession);
-	    else
-		config.set(each.getName(), playerSession);
-	    saveLegacyConfig();
+                // save in config
+                if (config.contains(each.getName()))
+                    config.set(each.getName(), config.getLong(each.getName()) + playerSession);
+                else
+                    config.set(each.getName(), playerSession);
+                saveLegacyConfig();
 	    
-	    // remove from map
-	    timeTracker.remove(each);
+                // remove from map
+                timeTracker.remove(each);
+            }
 	}
         
         // display to console
