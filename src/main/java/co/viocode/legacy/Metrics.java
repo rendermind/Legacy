@@ -1,4 +1,4 @@
-package me.vioviocity.legacy;
+package co.viocode.legacy;
 
 /*
  * Copyright 2011 Tyler Blair. All rights reserved.

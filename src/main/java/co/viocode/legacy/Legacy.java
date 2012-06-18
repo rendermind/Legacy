@@ -1,4 +1,4 @@
-package me.vioviocity.legacy;
+package co.viocode.legacy;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class Legacy extends JavaPlugin implements Listener {
         // schedule auto-save
         getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
             public void run() { savePlayerTime(); }
-	}, 900, 900);
+	}, 18000, 18000);
         
 	// console
 	log.info(this + " is now enabled.");

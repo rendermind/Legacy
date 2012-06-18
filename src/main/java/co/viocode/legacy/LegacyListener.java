@@ -1,4 +1,4 @@
-package me.vioviocity.legacy;
+package co.viocode.legacy;
 
 import java.util.Date;
 import org.bukkit.entity.Player;

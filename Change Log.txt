@@ -1,3 +1,5 @@
+1.2.2
+    Fixed Issue: 45-second auto-save instead of 15 minutes
 1.2.1
     Added auto-save player time every 15 minutes
     Removed console message when players leave
