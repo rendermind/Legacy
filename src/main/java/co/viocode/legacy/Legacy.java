@@ -146,9 +146,6 @@ public class Legacy extends JavaPlugin implements Listener {
             }
 	}
         
-        // display to console
-        log.info("[Legacy] Auto-saved player time");
-        
         // add players to timeTracker
 	now = new Date();
 	for (Player each : getServer().getOnlinePlayers())
