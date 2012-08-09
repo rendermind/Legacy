@@ -1,7 +1,8 @@
-author: Stephen Monroe (VioVioCity)
+author: vioCode
 main: co.viocode.legacy.Legacy
 name: Legacy
-version: 1.2.4
+url: http://viocode.co/
+version: 1.2.5
 commands:
   legacy:
     description: Displays server play time.
