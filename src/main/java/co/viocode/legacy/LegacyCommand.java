@@ -54,8 +54,8 @@ public class LegacyCommand implements CommandExecutor {
 						totalTime += (now.getTime() - entry.getValue()) / 1000;
 
 				// search prior sessions
-				if (Legacy.config.contains(player.getName()))
-					totalTime += Legacy.config.getLong(player.getName());
+				if (Legacy.logConfig.contains(player.getName()))
+					totalTime += Legacy.logConfig.getLong(player.getName());
 
 				// display to player
 				player.sendMessage(ChatColor.GREEN + "Time played: " + ChatColor.GOLD + timePlayed(totalTime));
@@ -77,8 +77,8 @@ public class LegacyCommand implements CommandExecutor {
 				long highTime = 0;
 
 				// load config
-				for (String each : Legacy.config.getConfigurationSection("").getKeys(false))
-					tempTracker.put(each, Legacy.config.getLong(each));
+				for (String each : Legacy.logConfig.getConfigurationSection("").getKeys(false))
+					tempTracker.put(each, Legacy.logConfig.getLong(each));
 
 				// sort players
 				sender.sendMessage(ChatColor.GREEN + "-= Legacy Leaderboard =-");
@@ -109,8 +109,8 @@ public class LegacyCommand implements CommandExecutor {
 				long totalTime = 0;
 
 				// load config
-				for (String each : Legacy.config.getConfigurationSection("").getKeys(false))
-					totalTime += Legacy.config.getLong(each);
+				for (String each : Legacy.logConfig.getConfigurationSection("").getKeys(false))
+					totalTime += Legacy.logConfig.getLong(each);
 
 				sender.sendMessage(ChatColor.GREEN + "Total Played: " + ChatColor.GOLD + timePlayed(totalTime));
 				return true;
@@ -142,8 +142,8 @@ public class LegacyCommand implements CommandExecutor {
 						totalTime += (now.getTime() - entry.getValue()) / 1000;
 
 				// search prior sessions
-				if (Legacy.config.contains(playerName))
-					totalTime += Legacy.config.getLong(playerName);
+				if (Legacy.logConfig.contains(playerName))
+					totalTime += Legacy.logConfig.getLong(playerName);
 
 				// player not found
 				if (totalTime == 0) {

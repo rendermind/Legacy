@@ -1,39 +1,75 @@
 package co.viocode.legacy;
 
 import java.util.Date;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		Date now = new Date();
-		Legacy.timeTracker.put(event.getPlayer(), now.getTime());
+		Legacy.timeTracker.put(event.getPlayer(), new Date().getTime());
+		Legacy.timeAway.put(event.getPlayer(), new Date().getTime());
 	}
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
+		Legacy.timeAway.remove(event.getPlayer());
+		Legacy.pausePlayerLegacy(event.getPlayer());
+	}
 
-		if (!Legacy.timeTracker.containsKey(event.getPlayer()))
-			return;
+	@EventHandler
+	public void onPlayerMove(PlayerMoveEvent event) {
+		Legacy.timeAway.put(event.getPlayer(), new Date().getTime());
+		Legacy.resumePlayerLegacy(event.getPlayer());
+	}
 
-		// initialize variables
-		Player player = event.getPlayer();
-		Date now = new Date();
-		long playerSession = (now.getTime() - Legacy.timeTracker.get(player)) / 1000;
+	@EventHandler
+	public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+		Legacy.timeAway.put(event.getPlayer(), new Date().getTime());
+		Legacy.resumePlayerLegacy(event.getPlayer());
+	}
 
-		// save in config
-		if (Legacy.config.contains(player.getName()))
-			Legacy.config.set(player.getName(), Legacy.config.getLong(player.getName()) + playerSession);
-		else
-			Legacy.config.set(player.getName(), playerSession);
-		Legacy.saveLegacyConfig();
+	@EventHandler
+	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+		Legacy.timeAway.put(event.getPlayer(), new Date().getTime());
+		Legacy.resumePlayerLegacy(event.getPlayer());
+	}
 
-		// remove from map
-		Legacy.timeTracker.remove(player);
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		Legacy.timeAway.put(event.getPlayer(), new Date().getTime());
+		Legacy.resumePlayerLegacy(event.getPlayer());
+	}
+
+	@EventHandler
+	public void onInventoryClickEvent(InventoryClickEvent event) {
+		for (HumanEntity each : event.getInventory().getViewers()) {
+			Legacy.timeAway.put((Player) each, new Date().getTime());
+			Legacy.resumePlayerLegacy((Player) each);
+		}
+	}
+
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent event) {
+		Legacy.timeAway.put(event.getPlayer(), new Date().getTime());
+		Legacy.resumePlayerLegacy(event.getPlayer());
+	}
+
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		Legacy.timeAway.put(event.getPlayer(), new Date().getTime());
+		Legacy.resumePlayerLegacy(event.getPlayer());
 	}
 }

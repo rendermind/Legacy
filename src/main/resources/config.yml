@@ -1,0 +1,5 @@
+auto-save:
+  frequency: 15
+idle:
+  timeout: 15
+  frequency: 1
